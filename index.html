@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>SprintProject - Bagas</title>
+
+		<title data-i18n="resources.title_controlerLayerSwitcher"></title>		
+		<script type="text/javascript" src="/js/include-web.js"></script>
+		<script type="text/javascript" include="layerswitcher" src="js/ol/include-ol.js"></script>
+
+		<title data-i18n="resources.title_layerService"></title>
+    	<script type="text/javascript" include="bootstrap-css" src="/js/include-web.js"></script>
+    	<script type="text/javascript" src="js/ol/include-ol.js"></script>
+				
+	</head>
+	<body style=" margin: 0;overflow: hidden;background: #fff;width: 100%;height:100%; position: absolute;top: 0;">
+		<div id="map" style="width: 100%;height:100%"></div>
+		
+		<script type="text/javascript">			
+			
+			var map, url = "http://localhost:8090/iserver/services/map-Admin_KabKota/rest/maps/Admin_KabKota";
+			var r1920 = "http://localhost:8090/iserver/services/map-R1920/rest/maps/R1920";
+			var r1819 = "http://localhost:8090/iserver/services/map-R1819/rest/maps/R1819";
+			var r1718 = "http://localhost:8090/iserver/services/map-R1718/rest/maps/R1718"; 
+			var d1920 = "http://localhost:8090/iserver/services/map-D1920/rest/maps/D1920";
+			var d1819 = "http://localhost:8090/iserver/services/map-D1819/rest/maps/D1819";
+			var d1718 = "http://localhost:8090/iserver/services/map-D1718/rest/maps/D1718"; 
+						
+			var map = new ol.Map({			
+			layers: [
+				new ol.layer.Group({
+					title: 'Basemap',
+					layers: [
+						new ol.layer.Tile({
+            				title: 'OpenStreetMap',
+							type: 'base',
+							source: new ol.source.OSM()
+            			}),
+						new ol.layer.Tile({ 
+							title: 'Bing Maps',
+							type: 'base',
+							visible: false,  					
+							source: new ol.source.BingMaps({  
+							key: 'Aug_jpyeictKv9-blHjr0OJOy-hYRR_5bIWhecGYlywC_F6p0LMvQ0Ye8J95tSJt',  
+							imagerySet: 'Aerial'
+							}),
+            	 		}),
+			 			new ol.layer.Tile({  
+							source: new ol.source.TileSuperMapRest({  
+							url: url,  
+							wrapX: true  
+							}),  
+							projection: 'EPSG:4326'  
+						}),  
+					]
+				}),	
+
+				new ol.layer.Group({
+          			title: 'Data',
+          			layers: [																
+					  	new ol.layer.Tile({  
+							title: 'Reforestasi 2019-2020',
+							source: new ol.source.TileSuperMapRest({  
+							url: r1920,  
+							wrapX: true  
+							}),  					 
+						}),
+						new ol.layer.Tile({ 
+							title: 'Reforestasi 2018-2019', 
+							source: new ol.source.TileSuperMapRest({  
+							url: r1819,  
+							wrapX: true  
+							}),  					 
+						}),  
+						new ol.layer.Tile({  
+							title: 'Reforestasi 2017-2018',
+							source: new ol.source.TileSuperMapRest({  
+							url: r1718,  
+							wrapX: true  
+							}),  					 
+						}),  
+						new ol.layer.Tile({  
+							title: 'Deforestasi 2019-2020',
+							source: new ol.source.TileSuperMapRest({  
+							url: d1920,  
+							wrapX: true  
+							}),  					 
+						}),  
+						new ol.layer.Tile({
+							title: 'Deforestasi 2018-2019',  
+							source: new ol.source.TileSuperMapRest({  
+							url: d1819,  
+							wrapX: true  
+							}),  					 
+						}),  
+						new ol.layer.Tile({  
+							title: 'Deforestasi 2017-2018',
+							source: new ol.source.TileSuperMapRest({  
+							url: d1718,  
+							wrapX: true  
+							}),  					 
+						}),			
+						
+           			],
+        		}),
+			],
+			target: 'map',
+			controls: ol.control.defaults({attributionOptions: {collapsed: false}}),
+			view: new ol.View({  
+			center: [113.921327,-0.789275],  
+			zoom: 4.5,  
+			projection: 'EPSG:4326',  
+			multiWorld: true  
+			})
+		});
+
+		//Add Layer Switcher
+		var layerSwitcher = new ol.control.LayerSwitcher({});
+		map.addControl(layerSwitcher);	
+		//Add Zoom Control
+		scaleControl = new ol.control.ScaleLine();
+		map.addControl(scaleControl);
+
+		</script>
+
+	</body>
+</html>
